@@ -1,0 +1,20 @@
+# .gitignore file in StaffBase
+# Node.js
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# IDE files
+.idea/
+.vscode/
+
+# Temporary files
+*.swp
