@@ -1,10 +1,10 @@
 <div class="sidebar_container">
-    <ul class="sidebar_links">
-        <li (click)="goToPage('/dashboard')">Dashboard</li>
-        <li (click)="goToPage('/employee')">Employee</li>
-      <li (click)="goToPage('/department')">Departments</li>
-      <li (click)="goToPage('/tasks')">Tasks</li>
-      <li (click)="goToPage('/salary')">Salary</li>
-      <li (click)="goToPage('/company')">Company</li>
-    </ul>
+  <ul class="sidebar_links">
+    <li (click)="goToPage('/dashboard')" [class.active-link]="isActive('/dashboard')">Dashboard</li>
+    <li (click)="goToPage('/employee')" [class.active-link]="isActive('/employee')">Employee</li>
+    <li (click)="goToPage('/department')" [class.active-link]="isActive('/department')">Departments</li>
+    <li (click)="goToPage('/tasks')" [class.active-link]="isActive('/tasks')">Tasks</li>
+    <li (click)="goToPage('/salary')" [class.active-link]="isActive('/salary')">Salary</li>
+    <li (click)="goToPage('/company')" [class.active-link]="isActive('/company')">Company</li>
+  </ul>
 </div>

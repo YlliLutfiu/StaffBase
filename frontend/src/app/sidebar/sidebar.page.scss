@@ -38,3 +38,8 @@
     color: #3498db;
     cursor: pointer;
   }
+
+.sidebar_links li.active-link {
+  color: #3498db;
+  font-weight: bold;
+}
