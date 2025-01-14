@@ -3,6 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EmployeeDTO } from '../models/employee.dto';
 import { EmployeeService } from '../services/employee.service';
+import { DepartmentDTO } from '../models/department.dto';
+import { DepartmentService } from '../services/department.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -24,15 +26,19 @@ export class CreateEmployeePage implements OnInit {
     employee_createdAt: "",
   };
   private employeeService = inject(EmployeeService);
+  private departmentService = inject(DepartmentService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   
   public isEditMode: boolean = false;
   
   employeeId: number = 0;
+  departments: DepartmentDTO[] = [];
 
   constructor() {}
   ngOnInit() {
+    this.loadDepartments();
+
     this.activatedRoute.paramMap.subscribe(params => {
       const employeeId = params.get('employeeId');
       if (employeeId) {
@@ -41,7 +47,17 @@ export class CreateEmployeePage implements OnInit {
         this.loadEmployee(employeeId);
       }
     });
-    console.log('employeeid', this.employeeId)
+  }
+
+  loadDepartments() {
+    this.departmentService.getDepartments().subscribe({
+      next: (response) => {
+        this.departments = response;
+      },
+      error: (err) => {
+        console.error('Error loading departments:', err);
+      }
+    });
   }
 
   loadEmployee(employeeId: string) {
@@ -59,10 +75,8 @@ export class CreateEmployeePage implements OnInit {
     this.employeeObj.employee_createdAt = new Date().toISOString();
 
     if (this.isEditMode) {
-      console.log(this.employeeId)
       this.employeeService.updateEmployee(this.employeeId, this.employeeObj).subscribe({
         next: (response) => {
-          this.employeeObj = response;
           console.log('Employee updated:', response);
           this.onCancel();
         },
