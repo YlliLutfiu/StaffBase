@@ -25,6 +25,14 @@ export class AuthService {
     this.cookieService.set('accessToken', token, { expires: 7, path: '/', sameSite: 'None', secure: true });
   }
 
+  storeUsername(username: string): void {
+    this.cookieService.set('username', username, { expires: 7, path: '/' });
+  }
+
+  getUsername(): string | null {
+    return this.cookieService.get('username');
+  }
+
   getToken(): string | null {
     return this.cookieService.get('accessToken');
   }
@@ -35,6 +43,7 @@ export class AuthService {
 
   removeToken(): void {
     this.cookieService.delete('accessToken');
-    this.router.navigate(['/login'])
+    this.cookieService.delete('username');
+    this.router.navigate(['/login']);
   }
 }

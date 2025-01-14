@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -11,9 +11,14 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './navbar.page.html',
   styleUrl: './navbar.page.scss'
 })
-export class NavbarPage {
+export class NavbarPage implements OnInit {
   private router = inject(Router);
-  private authService = inject(AuthService)
+  authService = inject(AuthService)
+  username: string | null = '';
+
+  ngOnInit() {
+    this.username = this.authService.getUsername();
+  }
 
   goToRegister() {
     this.router.navigate(['/register']);

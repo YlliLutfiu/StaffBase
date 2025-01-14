@@ -3,8 +3,7 @@
         <h1>StaffBase</h1>
     </div>
     <div class="user-profile">
-      <!-- <button (click)="goToRegister()">Register</button> -->
-      <span>Welcome, User</span>
-      <button (click)="logout()">Logout</button>
+      <span *ngIf="username">Welcome, {{ username }}</span>
+      <button *ngIf="authService.isLoggedIn()" (click)="logout()">Logout</button>
     </div>
   </nav>

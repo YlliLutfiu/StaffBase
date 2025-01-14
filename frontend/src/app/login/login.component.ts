@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit {
         console.log('Login successful', response);
         if (response && response.accessToken) {
           this.authService.storeToken(response.accessToken);
+          this.authService.storeUsername(response.username)
+          console.log(response.username)
         }
         this.router.navigate(['/dashboard']);
       },
