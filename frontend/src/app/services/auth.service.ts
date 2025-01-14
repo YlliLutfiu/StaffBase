@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000/auth';
+  private router = inject(Router)
   
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
@@ -33,5 +35,6 @@ export class AuthService {
 
   removeToken(): void {
     this.cookieService.delete('accessToken');
+    this.router.navigate(['/login'])
   }
 }
