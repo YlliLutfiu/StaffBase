@@ -44,3 +44,11 @@
 .edit-btn:hover {
   background-color: #0056b3;
 }
+
+#paginationCtrl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+}

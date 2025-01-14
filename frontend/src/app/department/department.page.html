@@ -11,12 +11,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let department of departments">
+        <tr *ngFor="let department of departments | paginate: { itemsPerPage: 5, currentPage: p }">
           <td>{{ department.department_name }}</td>
           <td>{{ department.manager_name || 'N/A' }}</td>
           <td><button class="edit-btn" (click)="openEditModal(department.department_id)">Edit</button></td>
         </tr>
       </tbody>
     </table>
+
+    <div id="paginationCtrl">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
   </div>
   

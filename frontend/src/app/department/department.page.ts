@@ -5,11 +5,15 @@ import { DepartmentService } from '../services/department.service';
 import { DepartmentDTO } from '../models/department.dto';
 import { EmployeeService } from '../services/employee.service';
 import { forkJoin } from 'rxjs';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-department',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NgxPaginationModule
+  ],
   templateUrl: './department.page.html',
   styleUrl: './department.page.scss'
 })
@@ -19,6 +23,7 @@ export class DepartmentPage implements OnInit {
   private departmentService = inject(DepartmentService);
   private employeeService = inject(EmployeeService);
   managerName?: string;
+  p: number = 1;
 
   ngOnInit(): void {
     this.loadDepartments();

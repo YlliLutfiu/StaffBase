@@ -5,11 +5,15 @@ import { TasksDTO } from '../models/tasks.dto';
 import { EmployeeService } from '../services/employee.service';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NgxPaginationModule
+  ],
   templateUrl: './tasks.page.html',
   styleUrl: './tasks.page.scss'
 })
@@ -18,6 +22,7 @@ export class TasksPage implements OnInit {
   private router = inject(Router);
   private tasksService = inject(TasksService);
   private employeeService = inject(EmployeeService);
+  p: number = 1;
 
   isModalOpen: boolean = false;
   taskToDelete: TasksDTO | null = null;

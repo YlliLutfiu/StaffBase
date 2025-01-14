@@ -5,12 +5,15 @@ import { SalaryService } from '../services/salary.service';
 import { SalaryDTO } from '../models/salary.dto';
 import { EmployeeService } from '../services/employee.service';
 import { forkJoin } from 'rxjs';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-salary',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NgxPaginationModule
+  ],
   templateUrl: './salary.page.html',
   styleUrl: './salary.page.scss'
 })
@@ -19,6 +22,7 @@ export class SalaryPage implements OnInit {
   private router = inject(Router);
   private salaryService = inject(SalaryService);
   private employeeService = inject(EmployeeService);
+  p: number = 1;
 
   ngOnInit(): void {
     this.loadSalaries();
