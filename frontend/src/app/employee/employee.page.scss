@@ -133,3 +133,11 @@
   .sort-icon.desc {
     transform: rotate(0deg);
   }
+
+  #paginationCtrl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+  }

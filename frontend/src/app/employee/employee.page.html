@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of employees">
+      <tr *ngFor="let employee of employees | paginate: { itemsPerPage: 5, currentPage: p }">
         <td>{{ employee.employee_name }}</td>
         <td>{{ employee.employee_position }}</td>
         <td>{{ employee.employee_phone }}</td>
@@ -34,6 +34,10 @@
       </tr>
     </tbody>
   </table>
+
+  <div id="paginationCtrl">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
 
   <div *ngIf="isModalOpen" class="modal-overlay">
     <div class="modal">

@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-// import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-employee',
   standalone: true,
   imports: [
     CommonModule,
-    // HttpClientModule
+    NgxPaginationModule
   ],
   providers: [EmployeeService],
   templateUrl: './employee.page.html',
@@ -21,6 +21,7 @@ export class EmployeePage implements OnInit {
   private router = inject(Router)
   sortDirection: 'asc' | 'desc' = 'asc';
   sortColumn: string = '';
+  p: number = 1;
 
   openEditModal(employeeId: number) {
     this.router.navigate(['/create-employee', employeeId]);
