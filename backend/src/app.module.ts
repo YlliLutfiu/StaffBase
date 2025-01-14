@@ -4,9 +4,12 @@ import { User } from './user/user.entitiy';
 import { UserModule } from './user/user.module';
 import { EmployeeModule } from './employee/employee.module';
 import { Employee } from './employee/employee.entity';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(), 
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -18,7 +21,9 @@ import { Employee } from './employee/employee.entity';
       entities: [User, Employee],
       synchronize: true,
     }),
-    UserModule, EmployeeModule
+    UserModule,
+    EmployeeModule,
+    AuthModule
   ],
 })
 export class AppModule {}

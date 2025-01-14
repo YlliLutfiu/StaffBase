@@ -8,6 +8,8 @@ import { CompanyPage } from './company/company.page';
 import { TasksPage } from './tasks/tasks.page';
 import { SalaryPage } from './salary/salary.page';
 import { CreateEmployeePage } from './create-employee/create-employee.page';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -21,4 +23,6 @@ export const routes: Routes = [
     { path: 'salary', component: SalaryPage },
     { path: 'create-employee', component: CreateEmployeePage },
     { path: 'create-employee/:employeeId', component: CreateEmployeePage },
+    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent },
 ];

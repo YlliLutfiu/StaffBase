@@ -1,14 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity({ schema: 'staffbase', name: 'user' })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  user_id: number;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
