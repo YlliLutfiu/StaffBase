@@ -10,6 +10,9 @@ import { SalaryPage } from './salary/salary.page';
 import { CreateEmployeePage } from './create-employee/create-employee.page';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { CreateDepartmentPage } from './create-department/create-department.page';
+import { CreateTaskPage } from './create-task/create-task.page';
+import { CreateSalaryPage } from './create-salary/create-salary.page';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -25,4 +28,10 @@ export const routes: Routes = [
     { path: 'create-employee/:employeeId', component: CreateEmployeePage },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'create-department', component: CreateDepartmentPage },
+    { path: 'create-department/:departmentId', component: CreateDepartmentPage },
+    { path: 'create-task', component: CreateTaskPage },
+    { path: 'create-task/:taskId', component: CreateTaskPage },
+    { path: 'create-salary', component: CreateSalaryPage },
+    { path: 'create-salary/:salaryId', component: CreateSalaryPage },
 ];

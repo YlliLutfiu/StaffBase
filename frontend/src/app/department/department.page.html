@@ -1,45 +1,20 @@
 <div class="departments-container">
 
-    <button class="add-department-btn">Add Department</button>
+    <button class="add-department-btn" (click)="sendToCreateDepartment()">Add Department</button>
   
     <table class="departments-table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Name</th>
           <th>Manager</th>
-          <th>Number of Employees</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>HR</td>
-          <td>John Doe</td>
-          <td>5</td>
-          <td><button class="edit-btn">Edit</button></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>IT</td>
-          <td>Jane Smith</td>
-          <td>10</td>
-          <td><button class="edit-btn">Edit</button></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Marketing</td>
-          <td>Sam Johnson</td>
-          <td>8</td>
-          <td><button class="edit-btn">Edit</button></td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Sales</td>
-          <td>Emma Williams</td>
-          <td>12</td>
-          <td><button class="edit-btn">Edit</button></td>
+        <tr *ngFor="let department of departments">
+          <td>{{ department.department_name }}</td>
+          <td>{{ department.manager_name || 'N/A' }}</td>
+          <td><button class="edit-btn" (click)="openEditModal(department.department_id)">Edit</button></td>
         </tr>
       </tbody>
     </table>

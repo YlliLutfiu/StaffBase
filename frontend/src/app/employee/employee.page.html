@@ -5,19 +5,17 @@
   <table class="employee-table">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Position</th>
         <th>Phone</th>
         <th>Email</th>
         <th>Department</th>
         <th>Salary</th>
-        <th>Actions</th>
+        <th>Actions</th>   
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let employee of employees">
-        <td>{{ employee.employee_id }}</td>
         <td>{{ employee.employee_name }}</td>
         <td>{{ employee.employee_position }}</td>
         <td>{{ employee.employee_phone }}</td>
@@ -31,7 +29,7 @@
 
   <div *ngIf="isModalOpen" class="modal-overlay">
     <div class="modal">
-      <h3>Are you sure you want to delete {{ employeeToDelete?.employee_name }}?</h3>
+      <h3>Are you sure you want to delete the employee?</h3>
       <div class="modal-actions">
         <button class="cancel-btn" (click)="onCancelDelete()">Cancel</button>
         <button class="confirm-btn" (click)="onConfirmDelete()">Confirm</button>

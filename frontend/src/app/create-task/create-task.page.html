@@ -1,0 +1,70 @@
+<div class="form-container">
+    <h2>{{ isEditMode ? "Edit Task" : "Add Task" }}</h2>
+    <div id="addTaskForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="taskName">Task Name</label>
+          <input
+            type="text"
+            id="taskName"
+            [(ngModel)]="taskObj.task_name"
+            name="task_name"
+            required
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="taskDescription">Task Description</label>
+          <textarea
+            id="taskDescription"
+            [(ngModel)]="taskObj.task_description"
+            name="task_description"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+  
+        <div class="form-group">
+          <label for="taskEmployee">Assign to Employee</label>
+          <select
+            id="taskEmployee"
+            [(ngModel)]="taskObj.task_employee"
+            name="task_employee"
+            required
+          >
+            <option *ngFor="let employee of employees" [value]="employee.employee_id">
+              {{ employee.employee_name }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="taskDeadline">Deadline</label>
+          <input
+            type="date"
+            id="taskDeadline"
+            [(ngModel)]="taskObj.task_deadline"
+            name="task_deadline"
+            required
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="taskStatus">Status</label>
+          <select id="taskStatus" [(ngModel)]="taskObj.task_status" name="task_status" required>
+            <option *ngFor="let status of taskStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="form-actions">
+        <button type="submit" (click)="onSubmit()">
+          {{ isEditMode ? "Edit Task" : "Add Task" }}
+        </button>
+        <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,48 @@
+<div class="form-container">
+    <h2>{{ isEditMode ? "Edit Salary" : "Add Salary" }}</h2>
+    <div id="addSalaryForm">
+      <div class="form-grid">
+        <div class="form-group">
+            <label for="employeeId">Employee</label>
+            <select
+              id="employeeId"
+              [(ngModel)]="salaryObj.employee_salary"
+              name="employee_id"
+              required
+            >
+              <option *ngFor="let employee of employees" [value]="employee.employee_id">
+                {{ employee.employee_name }}
+              </option>
+            </select>
+          </div>
+        <div class="form-group">
+          <label for="salaryAmount">Salary Amount</label>
+          <input
+            type="number"
+            id="salaryAmount"
+            [(ngModel)]="salaryObj.salary_amount"
+            name="salary_amount"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="salaryDate">Salary Date</label>
+          <input
+            type="date"
+            id="salaryDate"
+            [(ngModel)]="salaryObj.salary_date"
+            name="salary_date"
+            required
+          />
+        </div>
+      </div>
+  
+      <div class="form-actions">
+        <button type="submit" (click)="onSubmit()">
+          {{ isEditMode ? "Edit Salary" : "Add Salary" }}
+        </button>
+        <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

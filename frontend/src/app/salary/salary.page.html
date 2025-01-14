@@ -1,28 +1,24 @@
-<div class="salary-timeline">
-    <div class="salary-entry">
-      <div class="timeline-content">
-        <div class="salary-date">January 2025</div>
-        <div class="salary-details">
-          <span><strong>Amount Paid:</strong> $3,000</span>
-          <span><strong>Deductions:</strong> $300</span>
-          <span><strong>Bonuses:</strong> $200</span>
-          <span><strong>Net Salary:</strong> $2,900</span>
-        </div>
-        <button class="btn-view">View Details</button>
-      </div>
-    </div>
+<div class="salary-container">
+  <button class="add-salary-btn" (click)="sendToCreateSalary()">Add Salary</button>
   
-    <div class="salary-entry">
-      <div class="timeline-content">
-        <div class="salary-date">December 2024</div>
-        <div class="salary-details">
-          <span><strong>Amount Paid:</strong> $3,200</span>
-          <span><strong>Deductions:</strong> $250</span>
-          <span><strong>Bonuses:</strong> $150</span>
-          <span><strong>Net Salary:</strong> $3,100</span>
-        </div>
-        <button class="btn-view">View Details</button>
-      </div>
-    </div>
-  </div>
-  
+  <table class="salary-table">
+    <thead>
+      <tr>
+        <th>Employee Salary</th>
+        <th>Salary Amount</th>
+        <th>Salary Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let salary of salaries">
+        <td>{{ salary.salary_employee_name }}</td>
+        <td>{{ salary.salary_amount }}</td>
+        <td>{{ salary.salary_date }}</td>
+        <td>
+          <button class="edit-btn" (click)="openEditModal(salary.salary_id)">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

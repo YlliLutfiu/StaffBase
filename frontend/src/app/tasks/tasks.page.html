@@ -1,6 +1,6 @@
 <div class="task-container">
   
-    <button class="btn-add-task">Add Task</button>
+    <button class="btn-add-task" (click)="sendToCreateTask()">Add Task</button>
   
     <table class="task-table">
       <thead>
@@ -14,40 +14,28 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Task 1 -->
-        <tr>
-          <td>Task 1</td>
-          <td>John Doe</td>
-          <td>2025-01-15</td>
-          <td>Complete the monthly report</td>
-          <td>In Progress</td>
+        <tr *ngFor="let task of tasks">
+          <td>{{ task.task_name }}</td>
+          <td>{{ task.task_employee_name }}</td>
+          <td>{{ task.task_deadline }}</td>
+          <td>{{ task.task_description }}</td>
+          <td>{{ task.task_status }}</td>
           <td>
-            <button class="btn-edit">Edit</button>
-          </td>
-        </tr>
-        <!-- Task 2 -->
-        <tr>
-          <td>Task 2</td>
-          <td>Jane Smith</td>
-          <td>2025-01-20</td>
-          <td>Prepare the presentation for client</td>
-          <td>Pending</td>
-          <td>
-            <button class="btn-edit">Edit</button>
-          </td>
-        </tr>
-        <!-- Task 3 -->
-        <tr>
-          <td>Task 3</td>
-          <td>Emily Johnson</td>
-          <td>2025-01-25</td>
-          <td>Finalize the budget for next quarter</td>
-          <td>Completed</td>
-          <td>
-            <button class="btn-edit">Edit</button>
+            <button class="btn-edit" (click)="openEditModal(task.task_id)">Edit</button>
+            <button class="delete-btn" (click)="openDeleteModal(task)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <div *ngIf="isModalOpen" class="modal-overlay">
+      <div class="modal">
+        <h3>Are you sure you want to delete the task?</h3>
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="onCancelDelete()">Cancel</button>
+          <button class="confirm-btn" (click)="onConfirmDelete()">Confirm</button>
+        </div>
+      </div>
+    </div>
   </div>
   
