@@ -1,5 +1,26 @@
 <div class="employee-container">
   
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Search Employees..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange($event)"
+      (keydown.enter)="performSearch()"
+      (focus)="onSearchFocus()"
+      (blur)="onSearchBlur()"
+      class="search-input"
+    />
+    <div *ngIf="suggestions.length > 0" class="suggestions-container">
+      <div *ngFor="let suggestion of suggestions" (click)="selectSuggestion(suggestion)" class="suggestion-item">
+        <span [innerHTML]="highlightText(suggestion.employee_name)">
+          {{ suggestion.employee_name }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+
   <button class="add-employee-btn" (click)="sendToCreateEmployee()">Add Employee</button>
 
   <table class="employee-table">
@@ -23,7 +44,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of employees | paginate: { itemsPerPage: 5, currentPage: p }">
+      <tr *ngFor="let employee of filteredEmployees | paginate: { itemsPerPage: 5, currentPage: p }">
         <td>{{ employee.employee_name }}</td>
         <td>{{ employee.employee_position }}</td>
         <td>{{ employee.employee_phone }}</td>

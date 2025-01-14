@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employee',
   standalone: true,
   imports: [
     CommonModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ],
   providers: [EmployeeService],
   templateUrl: './employee.page.html',
@@ -17,18 +19,85 @@ import { NgxPaginationModule } from 'ngx-pagination';
 })
 export class EmployeePage implements OnInit {
   employees: any[] = [];
+  filteredEmployees: any[] = [];
+  suggestions: any[] = [];
   private employeeService = inject(EmployeeService);
-  private router = inject(Router)
+  private router = inject(Router);
+  searchTerm: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   sortColumn: string = '';
   p: number = 1;
+  isModalOpen: boolean = false;
+  employeeToDelete: any = null;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.loadEmployees();
+  }
+
+  loadEmployees(): void {
+    this.employeeService.getEmployees().subscribe((response) => {
+      this.employees = response;
+      this.filteredEmployees = response; // Initially, all employees are shown
+    });
+  }
+
+  onSearchChange(event: Event) {
+    this.searchTerm = (event.target as HTMLInputElement).value.trim();
+    this.updateSuggestions();
+  }
+
+  updateSuggestions() {
+    if (this.searchTerm.trim()) {
+      this.suggestions = this.employees.filter(employee => 
+        employee.employee_name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.suggestions = this.employees;
+    }
+  }
+
+  performSearch() {
+    if (this.searchTerm) {
+      this.filteredEmployees = this.suggestions;
+    } else {
+      this.filteredEmployees = this.employees;
+    }
+    setTimeout(() => {
+      this.suggestions = [];
+    }, 100);
+  }
+
+  selectSuggestion(suggestion: any) {
+    this.searchTerm = suggestion.employee_name;
+    this.filteredEmployees = [suggestion];
+    this.suggestions = [];
+  }
+
+  onSearchFocus() {
+    this.updateSuggestions();
+  }
+
+  onSearchBlur() {
+    setTimeout(() => {
+      this.suggestions = [];
+    }, 100);
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.filteredEmployees = this.employees;
+  }
+
+  highlightText(text: string): string {
+    const regex = new RegExp(`(${this.searchTerm})`, "gi");
+    return text.replace(regex, '<span class="text-orange-400 text-lg">$1</span>');
+  }
 
   openEditModal(employeeId: number) {
     this.router.navigate(['/create-employee', employeeId]);
   }
-
-  isModalOpen: boolean = false;
-  employeeToDelete: any = null;
 
   openDeleteModal(employeeId: number) {
     this.employeeToDelete = employeeId;
@@ -54,22 +123,6 @@ export class EmployeePage implements OnInit {
     }
     this.isModalOpen = false;
     this.employeeToDelete = null;
-  }
-
-  constructor() {}
-
-  ngOnInit(): void {
-    this.loadEmployees();
-  }
-
-  loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe((response) => {
-      this.employees = response;
-    });
-  }
-
-  sendToCreateEmployee() {
-    this.router.navigate(['/create-employee'])
   }
 
   sortEmployees(column: string): void {
@@ -102,5 +155,8 @@ export class EmployeePage implements OnInit {
       }
     });
   }
-  
+
+  sendToCreateEmployee() {
+    this.router.navigate(['/create-employee']);
+  }
 }
