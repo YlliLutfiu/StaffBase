@@ -5,12 +5,20 @@
   <table class="employee-table">
     <thead>
       <tr>
-        <th>Name</th>
+        <th (click)="sortEmployees('employee_name')">
+          Name
+          <span class="sort-icon" [ngClass]="{'asc': sortColumn === 'employee_name' && sortDirection === 'asc', 'desc': sortColumn === 'employee_name' && sortDirection === 'desc'}">
+          </span>
+        </th>
         <th>Position</th>
         <th>Phone</th>
         <th>Email</th>
         <th>Department</th>
-        <th>Salary</th>
+        <th (click)="sortEmployees('employee_salary')">
+          Salary
+          <span class="sort-icon" [ngClass]="{'asc': sortColumn === 'employee_salary' && sortDirection === 'asc', 'desc': sortColumn === 'employee_salary' && sortDirection === 'desc'}">
+          </span>
+        </th>
         <th>Actions</th>   
       </tr>
     </thead>
@@ -21,7 +29,7 @@
         <td>{{ employee.employee_phone }}</td>
         <td>{{ employee.employee_email }}</td>
         <td>{{ employee.employee_department }}</td>
-        <td>{{ employee.employee_salary | currency }}</td>
+        <td>{{ employee.employee_salary | currency:'EUR' }}</td>
         <td><button class="edit-btn" (click)="openEditModal(employee.employee_id)">Edit</button><button class="delete-btn" (click)="openDeleteModal(employee.employee_id)">Delete</button></td>
       </tr>
     </tbody>

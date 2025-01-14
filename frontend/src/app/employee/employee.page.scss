@@ -115,3 +115,35 @@
     background-color: #0056b3;
   }
   
+  .sort-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+    border: solid 2px transparent;
+    border-width: 0 2px 2px 2px;
+    border-color: black;
+    transform: rotate(90deg); /* Default horizontal arrow */
+  }
+  
+  .sort-icon.asc::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid black; /* Upward arrow */
+    margin-left: -5px; /* Adjust position */
+  }
+  
+  .sort-icon.desc::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid black; /* Downward arrow */
+    margin-left: -5px; /* Adjust position */
+  }
