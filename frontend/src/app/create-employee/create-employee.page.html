@@ -1,0 +1,35 @@
+<div class="form-container">
+    <h2>{{ isEditMode ? "Edit Employee" : "Add Employee" }}</h2>
+    <div id="addEmployeeForm">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="employeeName">Employee Name</label>
+                <input type="text" id="employeeName" [(ngModel)]="employeeObj.employee_name" name="employee_name" required>
+            </div>
+            <div class="form-group">
+                <label for="employeePosition">Position</label>
+                <input type="text" id="employeePosition" [(ngModel)]="employeeObj.employee_position" name="employee_position" required>
+            </div>
+            <div class="form-group">
+                <label for="employeePhone">Phone</label>
+                <input type="text" id="employeePhone" [(ngModel)]="employeeObj.employee_phone" name="employee_phone" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeEmail">Email</label>
+                <input type="email" id="employeeEmail" [(ngModel)]="employeeObj.employee_email" name="employee_email" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeDepartment">Department</label>
+                <input type="text" id="employeeDepartment" [(ngModel)]="employeeObj.employee_department" name="employee_department" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeSalary">Salary</label>
+                <input type="number" id="employeeSalary" [(ngModel)]="employeeObj.employee_salary" name="employee_salary" required>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" (click)="onSubmit()">{{ isEditMode ? "Edit Employee" : "Add Employee" }}</button>
+            <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+</div>

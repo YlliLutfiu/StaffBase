@@ -1,6 +1,6 @@
 <div class="employee-container">
   
-  <button class="add-employee-btn">Add Employee</button>
+  <button class="add-employee-btn" (click)="sendToCreateEmployee()">Add Employee</button>
 
   <table class="employee-table">
     <thead>
@@ -24,8 +24,18 @@
         <td>{{ employee.employee_email }}</td>
         <td>{{ employee.employee_department }}</td>
         <td>{{ employee.employee_salary | currency }}</td>
-        <td><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></td>
+        <td><button class="edit-btn" (click)="openEditModal(employee.employee_id)">Edit</button><button class="delete-btn" (click)="openDeleteModal(employee.employee_id)">Delete</button></td>
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="isModalOpen" class="modal-overlay">
+    <div class="modal">
+      <h3>Are you sure you want to delete {{ employeeToDelete?.employee_name }}?</h3>
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="onCancelDelete()">Cancel</button>
+        <button class="confirm-btn" (click)="onConfirmDelete()">Confirm</button>
+      </div>
+    </div>
+  </div>
 </div>

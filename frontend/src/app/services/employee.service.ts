@@ -23,7 +23,7 @@ export class EmployeeService {
     return this.http.post<EmployeeDTO>(this.baseUrl, employee);
   }
 
-  updateEmployee(id: number, employee: Partial<EmployeeDTO>): Observable<EmployeeDTO> {
+  updateEmployee(id: number, employee: EmployeeDTO): Observable<EmployeeDTO> {
     return this.http.put<EmployeeDTO>(`${this.baseUrl}/${id}`, employee);
   }
 

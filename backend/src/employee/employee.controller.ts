@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { Employee } from './employee.entity';
 import { EmployeeDTO } from './employee.dto';
@@ -25,6 +25,28 @@ export class EmployeeController {
     const newEmployee = await this.employeeService.create(employee);
     return this.toDTO(newEmployee);
   }
+
+  @Delete(':id')
+  async remove(@Param('id') id: number): Promise<{ message: string }> {
+    try {
+      await this.employeeService.remove(id);
+      return { message: `Employee with id ${id} deleted successfully` };
+    } catch (error) {
+      throw new NotFoundException(error.message || 'Failed to delete employee');
+    }
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() employeeDTO: EmployeeDTO): Promise<EmployeeDTO> {
+    const existingEmployee = await this.employeeService.findOne(id);
+    if (!existingEmployee) {
+      throw new NotFoundException(`Employee with id ${id} not found`);
+    }
+
+    const updatedEmployee = await this.employeeService.update(id, this.fromDTO(employeeDTO));
+    return this.toDTO(updatedEmployee);
+  }
+
 
   private toDTO(employee: Employee): EmployeeDTO {
     return {

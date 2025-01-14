@@ -20,7 +20,7 @@ export class Employee {
   @Column({ length: 100, nullable: true })
   employee_department: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   employee_createdAt: Date;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
