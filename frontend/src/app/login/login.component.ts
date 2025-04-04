@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.removeToken();
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
@@ -44,6 +45,10 @@ export class LoginComponent implements OnInit {
         console.error('Login error', err);
       },
     });
+  }
+
+  sendToRegister() {
+    this.router.navigate(['/register'])
   }
 
 }

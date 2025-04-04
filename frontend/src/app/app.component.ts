@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterModule, RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { SidebarPage } from './sidebar/sidebar.page';
 import { NavbarPage } from './navbar/navbar.page';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,16 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'frontend';
+  hideSidebarAndNavbar = false;
+  private router = inject(Router);
+
+  ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.hideSidebarAndNavbar = ['/login', '/register'].includes(event.urlAfterRedirects);
+      }
+    });
+  }
 }

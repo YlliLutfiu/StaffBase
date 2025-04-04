@@ -1,10 +1,9 @@
-
-<main class="main">
+<main class="main" >
   <div class="content">
-    <app-sidebar></app-sidebar>
-    <app-navbar></app-navbar>
+    <app-sidebar *ngIf="!hideSidebarAndNavbar"></app-sidebar>
+    <app-navbar *ngIf="!hideSidebarAndNavbar"></app-navbar>
   </div>
 </main>
 <div class="content_outlet">
-  <router-outlet />
+  <router-outlet></router-outlet>
 </div>
