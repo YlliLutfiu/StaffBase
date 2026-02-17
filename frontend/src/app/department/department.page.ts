@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-department',
@@ -26,8 +27,12 @@ export class DepartmentPage implements OnInit {
   private employeeService = inject(EmployeeService);
   managerName?: string;
   p: number = 1;
+  itemsPerPage: number = 5;
+  user: any;
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
+    this.user = this.authService.getUserData();
     this.loadDepartments();
   }
 

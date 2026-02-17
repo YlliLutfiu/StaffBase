@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-salary',
@@ -25,8 +26,12 @@ export class SalaryPage implements OnInit {
   private salaryService = inject(SalaryService);
   private employeeService = inject(EmployeeService);
   p: number = 1;
+  user: any;
+  private authService = inject(AuthService);
+  itemsPerPage: number = 5;
 
   ngOnInit(): void {
+    this.user = this.authService.getUserData();
     this.loadSalaries();
   }
 

@@ -18,7 +18,26 @@ export class AuthService {
   }
 
   login(data: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, data);
+    return new Observable((observer) => {
+      this.http.post(`${this.apiUrl}/login`, data).subscribe({
+        next: (res: any) => {
+          this.storeToken(res.accessToken);
+          this.storeUserData(res.user);
+          observer.next(res);
+          observer.complete();
+        },
+        error: (err) => observer.error(err),
+      });
+    });
+  }
+
+  storeUserData(user: { userId: number; username: string; email?: string; userRole?: string }): void {
+    this.cookieService.set('userData', JSON.stringify(user), { expires: 7, path: '/' });
+  }
+
+  getUserData(): { userId: number; username: string; email?: string; userRole?: string } | null {
+    const data = this.cookieService.get('userData');
+    return data ? JSON.parse(data) : null;
   }
 
   storeToken(token: string): void {
@@ -41,9 +60,10 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  removeToken(): void {
+  onLogout(): void {
     this.cookieService.delete('accessToken');
     this.cookieService.delete('username');
+    this.cookieService.delete('userData');
     this.router.navigate(['/login']);
   }
 }

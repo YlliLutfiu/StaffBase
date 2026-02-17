@@ -6,6 +6,7 @@ import { DepartmentDTO } from '../models/department.dto';
 import { DepartmentService } from '../services/department.service';
 import { EmployeeService } from '../services/employee.service';
 import { EmployeeDTO } from '../models/employee.dto';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-create-department',
@@ -19,6 +20,7 @@ export class CreateDepartmentPage implements OnInit {
     department_id: 0,
     department_name: '',
     department_manager: 0,
+    userId: undefined,
   };
 
   public employees: EmployeeDTO[] = [];
@@ -27,11 +29,14 @@ export class CreateDepartmentPage implements OnInit {
   private employeeService = inject(EmployeeService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+
   public isEditMode: boolean = false;
   private departmentId: number = 0;
 
   ngOnInit(): void {
     this.loadEmployees();
+
     this.activatedRoute.paramMap.subscribe((params) => {
       const departmentId = params.get('departmentId');
       if (departmentId) {
@@ -40,6 +45,13 @@ export class CreateDepartmentPage implements OnInit {
         this.loadDepartment(departmentId);
       }
     });
+
+    const currentUser = this.authService.getUserData();
+    console.log('userData at create department:', currentUser);
+
+    if (currentUser) {
+      this.departmentObj.userId = currentUser.userId;
+    }
   }
 
   loadEmployees(): void {
@@ -47,9 +59,7 @@ export class CreateDepartmentPage implements OnInit {
       next: (response) => {
         this.employees = response;
       },
-      error: (err) => {
-        console.error('Error loading employees:', err);
-      },
+      error: (err) => console.error('Error loading employees:', err),
     });
   }
 
@@ -57,41 +67,47 @@ export class CreateDepartmentPage implements OnInit {
     this.departmentService.getDepartmentById(+departmentId).subscribe({
       next: (department) => {
         this.departmentObj = { ...department };
+        const currentUser = this.authService.getUserData();
+        if (currentUser) {
+          this.departmentObj.userId = currentUser.userId;
+        }
       },
-      error: (err) => {
-        console.error('Error loading department:', err);
-      },
+      error: (err) => console.error('Error loading department:', err),
     });
   }
 
   onSubmit(): void {
+    console.log('Submitting department:', this.departmentObj);
+    this.departmentObj.department_manager = Number(this.departmentObj.department_manager);
+
     if (this.isEditMode) {
       this.departmentService.updateDepartment(this.departmentId, this.departmentObj).subscribe({
-        next: () => {
-          this.onCancel();
-        },
-        error: (err) => {
-          console.error('Error updating department:', err);
-        },
+        next: () => this.onCancel(),
+        error: (err) => console.error('Error updating department:', err),
       });
     } else {
+      if (!this.departmentObj.userId) {
+        const currentUser = this.authService.getUserData();
+        if (currentUser) this.departmentObj.userId = currentUser.userId;
+      }
+
       this.departmentService.createDepartment(this.departmentObj).subscribe({
         next: () => {
           this.resetForm();
           this.onCancel();
         },
-        error: (err) => {
-          console.error('Error creating department:', err);
-        },
+        error: (err) => console.error('Error creating department:', err),
       });
     }
   }
 
   resetForm(): void {
+    const currentUser = this.authService.getUserData();
     this.departmentObj = {
       department_id: 0,
       department_name: '',
       department_manager: 0,
+      userId: currentUser?.userId,
     };
   }
 

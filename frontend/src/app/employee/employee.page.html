@@ -20,10 +20,12 @@
     </div>
   </div>
 
-  <div class="button-container">
-    <button class="add-employee-btn" (click)="sendToCreateEmployee()">Add Employee</button>
-    <button class="add-employee-btn" (click)="exportToPDF()">Export to PDF</button>
-  </div>
+  @if (user?.userRole == 'user') {
+    <div class="button-container">
+      <button class="add-employee-btn" (click)="sendToCreateEmployee()">Add Employee</button>
+      <button class="add-employee-btn" (click)="exportToPDF()">Export to PDF</button>
+    </div>
+  }
 
   <table class="employee-table">
     <thead>
@@ -46,7 +48,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of filteredEmployees | paginate: { itemsPerPage: 5, currentPage: p }">
+      <tr *ngFor="let employee of filteredEmployees | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
         <td>{{ employee.employee_name }}</td>
         <td>{{ employee.employee_position }}</td>
         <td>{{ employee.employee_phone }}</td>

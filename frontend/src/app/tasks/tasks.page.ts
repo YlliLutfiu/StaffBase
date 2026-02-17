@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tasks',
@@ -25,9 +26,12 @@ export class TasksPage implements OnInit {
   private tasksService = inject(TasksService);
   private employeeService = inject(EmployeeService);
   p: number = 1;
+  user: any;
+  itemsPerPage: number = 5;
 
   isModalOpen: boolean = false;
   taskToDelete: TasksDTO | null = null;
+  private authService = inject(AuthService);
 
     openDeleteModal(task: TasksDTO): void {
       this.taskToDelete = task;
@@ -57,6 +61,7 @@ export class TasksPage implements OnInit {
 
   ngOnInit(): void {
     this.loadTasks();
+    this.user = this.authService.getUserData();
   }
 
   loadTasks(): void {

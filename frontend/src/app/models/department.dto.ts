@@ -3,4 +3,5 @@ export interface DepartmentDTO {
     department_name: string;
     department_manager: number;
     manager_name?: string; 
+    userId?: number;
   }

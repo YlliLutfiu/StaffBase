@@ -10,12 +10,11 @@ export class DepartmentService {
     private readonly departmentRepository: Repository<Department>,
   ) {}
 
-  async findAll(): Promise<Department[]> {
+  async findAll(userId: number): Promise<Department[]> {
     return this.departmentRepository.find({
-        order: {
-          department_id: 'DESC',
-        },
-      });
+      where: { userId },
+      order: { department_id: 'DESC' },
+    });
   }
 
   async findOne(id: number): Promise<Department> {

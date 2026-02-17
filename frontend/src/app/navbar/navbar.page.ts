@@ -14,10 +14,10 @@ import { AuthService } from '../services/auth.service';
 export class NavbarPage implements OnInit {
   private router = inject(Router);
   authService = inject(AuthService)
-  username: string | null = '';
+  username: string = '';
 
   ngOnInit() {
-    this.username = this.authService.getUsername();
+    this.username = this.authService.getUserData()?.username || '';
   }
 
   goToRegister() {
@@ -25,6 +25,6 @@ export class NavbarPage implements OnInit {
   }
 
   logout() {
-    this.authService.removeToken();
+    this.authService.onLogout();
   }
 }

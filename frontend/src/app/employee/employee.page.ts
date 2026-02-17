@@ -6,6 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-employee',
@@ -31,17 +32,21 @@ export class EmployeePage implements OnInit {
   p: number = 1;
   isModalOpen: boolean = false;
   employeeToDelete: any = null;
+  user: any;
+  private authService = inject(AuthService);
+  itemsPerPage: number = 5;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.user = this.authService.getUserData();
     this.loadEmployees();
   }
 
   loadEmployees(): void {
     this.employeeService.getEmployees().subscribe((response) => {
       this.employees = response;
-      this.filteredEmployees = response; // Initially, all employees are shown
+      this.filteredEmployees = response;
     });
   }
 

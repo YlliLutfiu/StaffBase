@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,12 +19,18 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   email = '';
   password = '';
-  private router = inject(Router)
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.removeToken();
+    this.route.queryParams.subscribe(params => {
+      if (params['email']) {
+        this.email = params['email'];
+      }
+    });
+    this.authService.onLogout();
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
@@ -36,10 +42,24 @@ export class LoginComponent implements OnInit {
         console.log('Login successful', response);
         if (response && response.accessToken) {
           this.authService.storeToken(response.accessToken);
-          this.authService.storeUsername(response.username)
-          console.log(response.username)
+          console.log('User Role:', response.user.role);
+
+          this.authService.storeUserData({
+            userId: response.user.userId,
+            username: response.user.username,
+            email: response.user.email || '',
+            userRole: response.user.role
+          });
+
+          console.log('userid from login component: ',response.user.userId)
+
+          console.log('UserData stored:', this.authService.getUserData());
         }
+        if (response.user.role == 'employee') {
+          this.router.navigate(['/tasks']);
+        } else {
         this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         console.error('Login error', err);
@@ -50,5 +70,4 @@ export class LoginComponent implements OnInit {
   sendToRegister() {
     this.router.navigate(['/register'])
   }
-
 }

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,12 +15,15 @@ export class RegisterComponent {
   username = '';
   email = '';
   password = '';
-
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  constructor() {}
 
   register() {
     this.authService.register({ username: this.username, email: this.email, password: this.password }).subscribe({
-      next: (response) => console.log('Registration successful', response),
+      next: (response) => {
+        this.router.navigate(['/login'], { queryParams: { email: this.email } });
+      },
       error: (err) => console.error('Registration error', err),
     });
   }

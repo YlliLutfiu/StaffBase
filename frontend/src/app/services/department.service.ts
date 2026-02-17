@@ -12,7 +12,7 @@ export class DepartmentService {
   constructor(private http: HttpClient) {}
 
   getDepartments(): Observable<DepartmentDTO[]> {
-    return this.http.get<DepartmentDTO[]>(this.baseUrl);
+    return this.http.get<DepartmentDTO[]>(`${this.baseUrl}`);
   }
 
   getDepartmentById(departmentId: number): Observable<DepartmentDTO> {

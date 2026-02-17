@@ -1,6 +1,9 @@
-import { UserRole } from "./user.entitiy";
+export enum UserRole {
+  USER = 'user',
+  EMPLOYEE = 'employee',
+}
 
-export class UserDTO {
+export interface UserDTO {
   user_id?: number;
   username: string;
   email: string;

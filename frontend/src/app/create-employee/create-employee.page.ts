@@ -6,6 +6,7 @@ import { EmployeeService } from '../services/employee.service';
 import { DepartmentDTO } from '../models/department.dto';
 import { DepartmentService } from '../services/department.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UserDTO, UserRole } from '../models/user.dto';
 
 @Component({
   selector: 'app-create-employee',
@@ -29,6 +30,7 @@ export class CreateEmployeePage implements OnInit {
   private departmentService = inject(DepartmentService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  public employeePassword: string = '';
   
   public isEditMode: boolean = false;
   
@@ -76,24 +78,31 @@ export class CreateEmployeePage implements OnInit {
 
     if (this.isEditMode) {
       this.employeeService.updateEmployee(this.employeeId, this.employeeObj).subscribe({
-        next: (response) => {
-          console.log('Employee updated:', response);
-          this.onCancel();
-        },
-        error: (err) => {
-          console.error('Error updating employee:', err);
-        },
+        next: () => this.onCancel(),
+        error: (err) => console.error(err),
       });
     } else {
       this.employeeService.createEmployee(this.employeeObj).subscribe({
-        next: (response) => {
-          console.log('Employee added:', response);
-          this.resetForm();
-          this.onCancel();
+        next: (employeeResponse) => {
+          const password = this.employeePassword || Math.random().toString(36).slice(-8);
+
+          const userDTO: UserDTO = {
+            username: this.employeeObj.employee_email.split('@')[0],
+            email: this.employeeObj.employee_email,
+            password: password,
+            role: UserRole.EMPLOYEE
+          };
+
+          this.employeeService.createEmployeeUser(userDTO).subscribe({
+            next: (userResponse) => {
+              console.log('Employee user account created:', userResponse);
+              this.resetForm();
+              this.onCancel();
+            },
+            error: (err) => console.error('Error creating employee user account:', err),
+          });
         },
-        error: (err) => {
-          console.error('Error adding employee:', err);
-        },
+        error: (err) => console.error('Error adding employee:', err),
       });
     }
   }

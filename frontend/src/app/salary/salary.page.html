@@ -1,8 +1,10 @@
 <div class="salary-container">
-  <div class="button-container">
-      <button class="add-salary-btn" (click)="sendToCreateSalary()">Add Salary</button>
-      <button class="add-salary-btn" (click)="exportToPDF()">Export to PDF</button>
-  </div>
+  @if (user?.userRole == 'user') {
+    <div class="button-container">
+        <button class="add-salary-btn" (click)="sendToCreateSalary()">Add Salary</button>
+        <button class="add-salary-btn" (click)="exportToPDF()">Export to PDF</button>
+    </div>
+  }
   <table class="salary-table">
     <thead>
       <tr>
@@ -13,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let salary of salaries | paginate: { itemsPerPage: 5, currentPage: p }">
+      <tr *ngFor="let salary of salaries | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
         <td>{{ salary.salary_employee_name }}</td>
         <td>{{ salary.salary_amount }}</td>
         <td>{{ salary.salary_date }}</td>

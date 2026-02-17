@@ -1,16 +1,19 @@
-import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException, Req, UseGuards } from '@nestjs/common';
 import { DepartmentService } from './department.service';
 import { Department } from './department.entity';
 import { DepartmentDTO } from './department.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('department')
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
   @Get()
-  async findAll(): Promise<DepartmentDTO[]> {
-    const departments = await this.departmentService.findAll();
-    return departments.map(department => this.toDTO(department));
+  async findAll(@Req() req: any): Promise<DepartmentDTO[]> {
+    const userId = req.user.userId;
+    const departments = await this.departmentService.findAll(userId);
+    return departments.map(this.toDTO);
   }
 
   @Get(':id')
@@ -48,6 +51,7 @@ export class DepartmentController {
       department_id: department.department_id,
       department_name: department.department_name,
       department_manager: department.department_manager,
+      userId: department.userId,
     };
   }
 
@@ -56,6 +60,7 @@ export class DepartmentController {
       department_id: departmentDTO.department_id,
       department_name: departmentDTO.department_name,
       department_manager: departmentDTO.department_manager,
+      userId: departmentDTO.userId,
     } as Department;
   }
 }
