@@ -6,6 +6,8 @@ import { SalaryDTO } from '../models/salary.dto';
 import { EmployeeService } from '../services/employee.service';
 import { forkJoin } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-salary',
@@ -58,5 +60,31 @@ export class SalaryPage implements OnInit {
 
   openEditModal(salaryId: number): void {
     this.router.navigate(['/create-salary', salaryId]);
+  }
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+
+    const columns = [
+      'Employee',
+      'Salary',
+      'Salary Date'
+    ];
+
+    const rows: string[][] = this.salaries.map(salary => [
+      String(salary.salary_employee_name ?? 'N/A'),
+      String(salary.salary_amount ?? 'N/A'),
+      String(salary.salary_date ?? 'N/A')
+    ]);
+
+    doc.text('Salary Report', 14, 15);
+
+    autoTable(doc, {
+      startY: 20,
+      head: [columns],
+      body: rows
+    });
+
+    doc.save('salary.pdf');
   }
 }

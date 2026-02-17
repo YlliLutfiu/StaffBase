@@ -4,6 +4,8 @@ import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-employee',
@@ -158,5 +160,37 @@ export class EmployeePage implements OnInit {
 
   sendToCreateEmployee() {
     this.router.navigate(['/create-employee']);
+  }
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+  
+    const columns = [
+      'Name',
+      'Position',
+      'Phone',
+      'Email',
+      'Department',
+      'Salary (€)'
+    ];
+  
+    const rows = this.filteredEmployees.map(employee => [
+      employee.employee_name,
+      employee.employee_position,
+      employee.employee_phone,
+      employee.employee_email,
+      employee.employee_department,
+      employee.employee_salary
+    ]);
+  
+    doc.text('Employee Report', 14, 15);
+  
+    autoTable(doc, {
+      startY: 20,
+      head: [columns],
+      body: rows,
+    });
+  
+    doc.save('employees.pdf');
   }
 }

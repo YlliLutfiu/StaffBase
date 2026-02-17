@@ -6,6 +6,8 @@ import { DepartmentDTO } from '../models/department.dto';
 import { EmployeeService } from '../services/employee.service';
 import { forkJoin } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-department',
@@ -54,5 +56,29 @@ export class DepartmentPage implements OnInit {
 
   openEditModal(departmentId: number): void {
     this.router.navigate(['/create-department', departmentId]);
+  }
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+  
+    const columns = [
+      'Department Name',
+      'Manager'
+    ];
+  
+    const rows = this.departments.map(department => [
+      department.department_name,
+      department.manager_name ? department.manager_name : 'N/A'
+    ]);
+  
+    doc.text('Department Report', 14, 15);
+  
+    autoTable(doc, {
+      startY: 20,
+      head: [columns],
+      body: rows
+    });
+  
+    doc.save('department.pdf');
   }
 }

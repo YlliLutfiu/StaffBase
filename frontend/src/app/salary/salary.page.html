@@ -1,6 +1,8 @@
 <div class="salary-container">
-  <button class="add-salary-btn" (click)="sendToCreateSalary()">Add Salary</button>
-  
+  <div class="button-container">
+      <button class="add-salary-btn" (click)="sendToCreateSalary()">Add Salary</button>
+      <button class="add-salary-btn" (click)="exportToPDF()">Export to PDF</button>
+  </div>
   <table class="salary-table">
     <thead>
       <tr>

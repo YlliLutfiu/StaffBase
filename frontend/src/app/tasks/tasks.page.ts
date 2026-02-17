@@ -6,6 +6,8 @@ import { EmployeeService } from '../services/employee.service';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-tasks',
@@ -88,4 +90,34 @@ export class TasksPage implements OnInit {
   openEditModal(taskId: number): void {
     this.router.navigate(['/create-task', taskId]);
   }
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+  
+    const columns = [
+      'Task Name',
+      'Employee',
+      'Deadline',
+      'Description',
+      'Status'
+    ];
+  
+    const rows: string[][] = this.tasks.map(task => [
+      String(task.task_name ?? ''),
+      String(task.task_employee_name ?? 'N/A'),
+      String(task.task_deadline ?? ''),
+      String(task.task_description ?? ''),
+      String(task.task_status ?? '')
+    ]);
+  
+    doc.text('Task Report', 14, 15);
+  
+    autoTable(doc, {
+      startY: 20,
+      head: [columns],
+      body: rows,
+    });
+  
+    doc.save('task.pdf');
+  }  
 }

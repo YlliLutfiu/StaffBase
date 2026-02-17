@@ -20,8 +20,10 @@
     </div>
   </div>
 
-
-  <button class="add-employee-btn" (click)="sendToCreateEmployee()">Add Employee</button>
+  <div class="button-container">
+    <button class="add-employee-btn" (click)="sendToCreateEmployee()">Add Employee</button>
+    <button class="add-employee-btn" (click)="exportToPDF()">Export to PDF</button>
+  </div>
 
   <table class="employee-table">
     <thead>
