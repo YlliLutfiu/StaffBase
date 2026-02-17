@@ -95,7 +95,6 @@ export class CreateEmployeePage implements OnInit {
 
           this.employeeService.createEmployeeUser(userDTO).subscribe({
             next: (userResponse) => {
-              console.log('Employee user account created:', userResponse);
               this.resetForm();
               this.onCancel();
             },

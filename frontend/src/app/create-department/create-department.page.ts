@@ -47,7 +47,6 @@ export class CreateDepartmentPage implements OnInit {
     });
 
     const currentUser = this.authService.getUserData();
-    console.log('userData at create department:', currentUser);
 
     if (currentUser) {
       this.departmentObj.userId = currentUser.userId;
@@ -77,7 +76,6 @@ export class CreateDepartmentPage implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Submitting department:', this.departmentObj);
     this.departmentObj.department_manager = Number(this.departmentObj.department_manager);
 
     if (this.isEditMode) {

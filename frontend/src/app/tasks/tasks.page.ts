@@ -47,7 +47,6 @@ export class TasksPage implements OnInit {
       if (this.taskToDelete) {
         this.tasksService.deleteTask(this.taskToDelete.task_id).subscribe({
           next: () => {
-            console.log('Task deleted successfully.');
             this.loadTasks();
           },
           error: (err) => {

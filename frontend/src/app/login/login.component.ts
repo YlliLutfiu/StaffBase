@@ -39,10 +39,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: (response) => {
-        console.log('Login successful', response);
         if (response && response.accessToken) {
           this.authService.storeToken(response.accessToken);
-          console.log('User Role:', response.user.role);
 
           this.authService.storeUserData({
             userId: response.user.userId,
@@ -50,10 +48,6 @@ export class LoginComponent implements OnInit {
             email: response.user.email || '',
             userRole: response.user.role
           });
-
-          console.log('userid from login component: ',response.user.userId)
-
-          console.log('UserData stored:', this.authService.getUserData());
         }
         if (response.user.role == 'employee') {
           this.router.navigate(['/tasks']);

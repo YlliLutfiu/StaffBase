@@ -120,7 +120,6 @@ export class EmployeePage implements OnInit {
     if (this.employeeToDelete) {
       this.employeeService.deleteEmployee(this.employeeToDelete).subscribe({
         next: () => {
-          console.log('Employee deleted successfully.');
           this.loadEmployees();
         },
         error: (err) => {
