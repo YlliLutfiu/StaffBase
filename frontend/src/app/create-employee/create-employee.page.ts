@@ -66,6 +66,7 @@ export class CreateEmployeePage implements OnInit {
     this.employeeService.getEmployeeById(+employeeId).subscribe({
       next: (employee) => {
         this.employeeObj = { ...employee };
+        console.log('Loaded employee data:', this.employeeObj);
       },
       error: (err) => {
         console.error('Error loading employee:', err);
