@@ -31,9 +31,6 @@
         </tr>
       </tbody>
     </table>
-  @if (user?.userRole == 'user') {
-    <button class="btn-add-task" (click)="sendToCreateTask()">Add Task</button>
-  }
 
   <div id="paginationCtrl">
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
