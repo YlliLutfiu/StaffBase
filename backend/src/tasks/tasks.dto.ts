@@ -5,4 +5,5 @@ export class TaskDTO {
     task_employee: number;
     task_deadline: Date;
     task_status: string;
+    userId?: number;
 }

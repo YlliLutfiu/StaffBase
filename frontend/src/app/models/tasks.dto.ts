@@ -7,5 +7,6 @@ export interface TasksDTO {
     task_employee: number;
     task_deadline: Date;
     task_status: TaskStatus;
-    task_employee_name?: string; 
+    task_employee_name?: string;
+    userId?: number;
 }

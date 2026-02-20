@@ -10,11 +10,12 @@ export class TaskService {
     private readonly taskRepository: Repository<Task>,
   ) {}
 
-  async findAll(): Promise<Task[]> {
+  async findAll(userId: number): Promise<Task[]> {
     return this.taskRepository.find({
-      order: {
-        task_id: 'DESC',
+      where: {
+        user: { user_id: userId },
       },
+      order: { task_id: 'DESC' },
     });
   }
 

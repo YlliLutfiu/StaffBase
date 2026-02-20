@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
+import { User } from 'src/user/user.entitiy';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({ schema: 'staffbase', name: 'tasks' })
 export class Task {
@@ -19,4 +20,11 @@ export class Task {
 
   @Column({ length: 50, nullable: true })
   task_status: string;
+
+  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
+  user: User;
+
+  @Column()
+  userId: number;
 }

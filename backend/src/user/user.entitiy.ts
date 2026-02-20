@@ -1,4 +1,6 @@
 import { Department } from 'src/department/department.entity';
+import { Employee } from 'src/employee/employee.entity';
+import { Task } from 'src/tasks/tasks.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 export enum UserRole {
@@ -25,4 +27,10 @@ export class User {
 
   @OneToMany(() => Department, (department) => department.user)
   departments: Department[];
+
+  @OneToMany(() => Employee, (employee) => employee.user)
+  employees: Employee[];
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 }

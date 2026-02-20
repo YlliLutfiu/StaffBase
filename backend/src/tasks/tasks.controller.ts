@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException, Req, UseGuards } from '@nestjs/common';
 import { TaskService } from './tasks.service';
 import { Task } from './tasks.entity';
 import { TaskDTO } from './tasks.dto';
+import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
-  async findAll(): Promise<TaskDTO[]> {
-    const tasks = await this.taskService.findAll();
+  async findAll(@Req() req): Promise<TaskDTO[]> {
+    const userId = req.user.userId;
+    const tasks = await this.taskService.findAll(userId);
     return tasks.map(task => this.toDTO(task));
   }
 
@@ -20,8 +23,9 @@ export class TaskController {
   }
 
   @Post()
-  async create(@Body() taskDTO: TaskDTO): Promise<TaskDTO> {
+  async create(@Body() taskDTO: TaskDTO, @Req() req): Promise<TaskDTO> {
     const task = this.fromDTO(taskDTO);
+    task.userId = req.user.userId;
     const newTask = await this.taskService.create(task);
     return this.toDTO(newTask);
   }
@@ -51,6 +55,7 @@ export class TaskController {
       task_employee: task.task_employee,
       task_deadline: task.task_deadline,
       task_status: task.task_status,
+      userId: task.userId,
     };
   }
 
@@ -62,6 +67,7 @@ export class TaskController {
       task_employee: taskDTO.task_employee,
       task_deadline: taskDTO.task_deadline,
       task_status: taskDTO.task_status,
+      userId: taskDTO.userId,
     } as Task;
   }
 }

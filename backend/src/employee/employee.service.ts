@@ -10,8 +10,11 @@ export class EmployeeService {
     private readonly employeeRepository: Repository<Employee>,
   ) {}
 
-  async findAll(): Promise<Employee[]> {
-    return await this.employeeRepository.find();
+  async findAll(userId: number): Promise<Employee[]> {
+    return await this.employeeRepository.find({
+      where: { userId },
+      order: { employee_id: 'DESC' },
+    });
   }
 
   async findOne(id: number): Promise<Employee> {
