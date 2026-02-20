@@ -4,6 +4,10 @@
       <button class="btn-add-task" (click)="sendToCreateTask()">Add Task</button>
       <button class="btn-add-task" (click)="exportToPDF()">Export to PDF</button>
     </div>
+  } @else {
+    <div class="button-container">
+      <button class="btn-add-task" (click)="exportToPDF()">Export to PDF</button>
+    </div>
   }
   
     <table class="task-table">
@@ -18,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let task of tasks | paginate: { itemsPerPage: 5, currentPage: p }">
+        <tr *ngFor="let task of tasks | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
           <td>{{ task.task_name }}</td>
           <td>{{ task.task_employee_name }}</td>
           <td>{{ task.task_deadline }}</td>

@@ -15,9 +15,11 @@ export class NavbarPage implements OnInit {
   private router = inject(Router);
   authService = inject(AuthService)
   username: string = '';
+  user: any;
 
   ngOnInit() {
-    this.username = this.authService.getUserData()?.username || '';
+    this.user = this.authService.getUserData();
+    this.username = this.user?.username || '';
   }
 
   goToRegister() {
@@ -26,5 +28,13 @@ export class NavbarPage implements OnInit {
 
   logout() {
     this.authService.onLogout();
+  }
+
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
+  navigateToTasks() {
+    this.router.navigate(['/tasks']);
   }
 }

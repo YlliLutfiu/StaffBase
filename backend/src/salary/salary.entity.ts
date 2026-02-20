@@ -1,7 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from 'src/user/user.entitiy';
 
 @Entity({ schema: 'staffbase', name: 'salary' })
 export class Salary {
+
   @PrimaryGeneratedColumn()
   salary_id: number;
 
@@ -13,4 +15,11 @@ export class Salary {
 
   @Column({ type: 'date' })
   salary_date: Date;
+
+  @ManyToOne(() => User, (user) => user.salaries, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
+  user: User;
+
+  @Column()
+  userId: number;
 }

@@ -78,6 +78,10 @@ export class DashboardPage implements OnInit, AfterViewInit {
             ).length
         );
 
+        if (this.employeesChart) {
+          this.employeesChart.destroy();
+        }
+
         this.employeesChart = new Chart(ctx, {
           type: "bar",
           data: {
@@ -115,6 +119,10 @@ export class DashboardPage implements OnInit, AfterViewInit {
         Cancelled: tasks.filter(t => t.task_status === TaskStatus.Cancelled).length,
         Postponed: tasks.filter(t => t.task_status === TaskStatus.Postponed).length,
       };
+
+      if (this.tasksPieChart) {
+        this.tasksPieChart.destroy();
+      }
   
       this.tasksPieChart = new Chart(ctx, {
         type: 'pie',

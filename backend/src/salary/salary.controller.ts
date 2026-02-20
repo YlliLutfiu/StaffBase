@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete, NotFoundException, UseGuards, Req } from '@nestjs/common';
 import { SalaryService } from './salary.service';
 import { Salary } from './salary.entity';
 import { SalaryDTO } from './salary.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('salary')
 export class SalaryController {
   constructor(private readonly salaryService: SalaryService) {}
 
   @Get()
-  async findAll(): Promise<SalaryDTO[]> {
-    const salaries = await this.salaryService.findAll();
+  async findAll(@Req() req: any): Promise<SalaryDTO[]> {
+    const userId = req.user.userId;
+    const salaries = await this.salaryService.findAll(userId);
     return salaries.map(salary => this.toDTO(salary));
   }
 
@@ -20,8 +23,9 @@ export class SalaryController {
   }
 
   @Post()
-  async create(@Body() salaryDTO: SalaryDTO): Promise<SalaryDTO> {
+  async create(@Body() salaryDTO: SalaryDTO, @Req() req: any): Promise<SalaryDTO> {
     const salary = this.fromDTO(salaryDTO);
+    salary.userId = req.user.userId;
     const newSalary = await this.salaryService.create(salary);
     return this.toDTO(newSalary);
   }
@@ -49,6 +53,7 @@ export class SalaryController {
       employee_salary: salary.employee_salary,
       salary_amount: salary.salary_amount,
       salary_date: salary.salary_date,
+      userId: salary.userId,
     };
   }
 
@@ -58,6 +63,7 @@ export class SalaryController {
       employee_salary: salaryDTO.employee_salary,
       salary_amount: salaryDTO.salary_amount,
       salary_date: salaryDTO.salary_date,
+      userId: salaryDTO.userId,
     } as Salary;
   }
 }

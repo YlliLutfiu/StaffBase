@@ -1,5 +1,6 @@
 import { Department } from 'src/department/department.entity';
 import { Employee } from 'src/employee/employee.entity';
+import { Salary } from 'src/salary/salary.entity';
 import { Task } from 'src/tasks/tasks.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
@@ -30,6 +31,9 @@ export class User {
 
   @OneToMany(() => Employee, (employee) => employee.user)
   employees: Employee[];
+
+  @OneToMany(() => Salary, (salary) => salary.user)
+  salaries: Salary[];
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];

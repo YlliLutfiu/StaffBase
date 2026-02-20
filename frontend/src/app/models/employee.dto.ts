@@ -7,4 +7,5 @@ export interface EmployeeDTO {
   employee_department: string;
   employee_salary: number;
   employee_createdAt: string;
+  userId?: number;
 }

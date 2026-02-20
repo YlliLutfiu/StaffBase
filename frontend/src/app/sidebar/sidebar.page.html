@@ -1,6 +1,8 @@
 <div class="sidebar_container">
   <ul class="sidebar_links">
-    <li (click)="goToPage('/dashboard')" [class.active-link]="isActive('/dashboard')">Dashboard</li>
+    @if (user?.userRole == 'user') {
+      <li (click)="goToPage('/dashboard')" [class.active-link]="isActive('/dashboard')">Dashboard</li>
+    }
     <li (click)="goToPage('/employee')" [class.active-link]="isActive('/employee')">Employee</li>
     <li (click)="goToPage('/department')" [class.active-link]="isActive('/department')">Departments</li>
     <li (click)="goToPage('/tasks')" [class.active-link]="isActive('/tasks')">Tasks</li>

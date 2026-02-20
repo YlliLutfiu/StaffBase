@@ -1,7 +1,13 @@
 <nav class="navbar">
-    <div class="logo_navbar">
+  @if (user?.userRole === 'user') {
+    <div class="logo_navbar" (click)="navigateToDashboard()">
         <h1>StaffBase</h1>
     </div>
+  } @else {
+    <div class="logo_navbar" (click)="navigateToTasks()">
+      <h1>StaffBase</h1>
+    </div>
+  }
     <div class="user-profile">
       <span *ngIf="username">Welcome, {{ username }}</span>
       <button *ngIf="authService.isLoggedIn()" (click)="logout()">Logout</button>

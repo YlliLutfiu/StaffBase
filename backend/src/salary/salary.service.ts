@@ -10,11 +10,10 @@ export class SalaryService {
     private readonly salaryRepository: Repository<Salary>,
   ) {}
 
-  async findAll(): Promise<Salary[]> {
+  async findAll(userId: number): Promise<Salary[]> {
     return this.salaryRepository.find({
-      order: {
-        salary_id: 'DESC',
-      },
+      where: { userId },
+      order: { salary_id: 'DESC' },
     });
   }
 
